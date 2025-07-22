@@ -25,6 +25,8 @@ const RecipeList = () => {
     filterRecipes();
   }, [searchTerm, filterRecipes]);
 
+  
+
   return (
     <div>
       <SearchBar />
