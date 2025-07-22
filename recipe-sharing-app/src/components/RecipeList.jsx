@@ -1,5 +1,20 @@
-import { useEffect } from 'react';
-import useRecipeStore from './recipeStore'; // Assuming default export
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import useRecipeStore from './recipeStore'; // Zustand store
+
+// Optional: SearchBar can be kept inside or imported if separated
+const SearchBar = () => {
+  const setSearchTerm = useRecipeStore((state) => state.setSearchTerm);
+
+  return (
+    <input
+      type="text"
+      placeholder="Search recipes..."
+      onChange={(e) => setSearchTerm(e.target.value)}
+      style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
+    />
+  );
+};
 
 const RecipeList = () => {
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
@@ -12,6 +27,12 @@ const RecipeList = () => {
 
   return (
     <div>
+      <SearchBar />
+
+      <div style={{ marginBottom: '1rem' }}>
+        <Link to="/add">Add New Recipe</Link>
+      </div>
+
       {filteredRecipes.length > 0 ? (
         filteredRecipes.map((recipe) => (
           <div key={recipe.id}>
