@@ -1,8 +1,8 @@
+// components/RecipeList.jsx
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import useRecipeStore from './recipeStore'; // Zustand store
+import useRecipeStore from '../store/useRecipeStore'; // Adjust path if needed
 
-// Optional: SearchBar can be kept inside or imported if separated
 const SearchBar = () => {
   const setSearchTerm = useRecipeStore((state) => state.setSearchTerm);
 
@@ -11,35 +11,59 @@ const SearchBar = () => {
       type="text"
       placeholder="Search recipes..."
       onChange={(e) => setSearchTerm(e.target.value)}
-      style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
+      className="w-full p-2 border rounded mb-4"
     />
   );
 };
 
 const RecipeList = () => {
-  const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
-  const searchTerm = useRecipeStore((state) => state.searchTerm);
-  const filterRecipes = useRecipeStore((state) => state.filterRecipes);
+  const {
+    filteredRecipes,
+    searchTerm,
+    filterRecipes,
+    favorites,
+    addFavorite,
+    removeFavorite,
+  } = useRecipeStore();
 
   useEffect(() => {
     filterRecipes();
   }, [searchTerm, filterRecipes]);
 
+  const toggleFavorite = (id) => {
+    favorites.includes(id) ? removeFavorite(id) : addFavorite(id);
+  };
+
   return (
-    <div>
+    <div className="p-4">
       <SearchBar />
 
-      <div style={{ marginBottom: '1rem' }}>
-        <Link to="/add">Add New Recipe</Link>
+      <div className="mb-4">
+        <Link to="/add" className="text-blue-600 underline">
+          ➕ Add New Recipe
+        </Link>
       </div>
 
       {filteredRecipes.length > 0 ? (
-        filteredRecipes.map((recipe) => (
-          <div key={recipe.id}>
-            <h3>{recipe.title}</h3>
-            <p>{recipe.description}</p>
-          </div>
-        ))
+        <ul className="space-y-4">
+          {filteredRecipes.map((recipe) => (
+            <li
+              key={recipe.id}
+              className="border rounded p-3 flex justify-between items-center"
+            >
+              <div>
+                <h3 className="font-semibold">{recipe.title}</h3>
+                <p className="text-sm text-gray-600">{recipe.description}</p>
+              </div>
+              <button
+                className="text-blue-500 hover:underline"
+                onClick={() => toggleFavorite(recipe.id)}
+              >
+                {favorites.includes(recipe.id) ? 'Unfavorite' : 'Favorite'}
+              </button>
+            </li>
+          ))}
+        </ul>
       ) : (
         <p>No matching recipes found.</p>
       )}
@@ -47,4 +71,4 @@ const RecipeList = () => {
   );
 };
 
-export { RecipeList };
+export default RecipeList;
