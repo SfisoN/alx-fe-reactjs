@@ -41,7 +41,7 @@ function Search() {
 
       {/* Conditional Rendering */}
       {loading && <p>Loading...</p>}
-      {error && <p>Looks like we can't find the user</p>}
+      {error && <p>Looks like we cant find the user</p>}
       {userData && !loading && !error && (
         <div className="user-card">
           <img
