@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./components/Home";
 import About from "./components/About";
+import Search from "./components/Search";
 
 function App() {
   return (
     <Router>
       <div className="app">
-        
         <header>
           <h1>My GitHub App</h1>
           <nav>
@@ -15,6 +15,9 @@ function App() {
         </header>
 
         <main>
+          {/* Add Search component above or inside the routes */}
+          <Search />
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
