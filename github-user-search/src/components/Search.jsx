@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fetchAdvancedUsers } from "../services/githubService";
+import { fetchUserData, fetchAdvancedUsers } from "../services/githubService";
 
 function Search() {
   const [username, setUsername] = useState("");
@@ -16,10 +16,17 @@ function Search() {
     setUsers([]);
 
     try {
-      const data = await fetchAdvancedUsers({ username, location, minRepos });
-      setUsers(data.items); // Search API returns results in "items"
+      // If no extra filters, do a simple user search
+      if (!location && !minRepos) {
+        const data = await fetchUserData(username);
+        setUsers([data]); // Wrap in array so UI works
+      } else {
+        // Advanced search with filters
+        const data = await fetchAdvancedUsers({ username, location, minRepos });
+        setUsers(data.items);
+      }
     } catch (err) {
-        console.log(err);
+      console.log(err);
       setError(true);
     } finally {
       setLoading(false);
@@ -39,17 +46,18 @@ function Search() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="border rounded p-2"
+          required
         />
         <input
           type="text"
-          placeholder="Location"
+          placeholder="Location (optional)"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           className="border rounded p-2"
         />
         <input
           type="number"
-          placeholder="Minimum Repositories"
+          placeholder="Minimum Repositories (optional)"
           value={minRepos}
           onChange={(e) => setMinRepos(e.target.value)}
           className="border rounded p-2"
@@ -64,7 +72,7 @@ function Search() {
 
       {/* Conditional Rendering */}
       {loading && <p className="mt-4 text-blue-600">Loading...</p>}
-      {error && <p className="mt-4 text-red-600">An error occurred. Please try again.</p>}
+      {error && <p className="mt-4 text-red-600">Looks like we can't find the user</p>}
 
       {/* Results */}
       {users.length > 0 && (
@@ -80,7 +88,7 @@ function Search() {
                 className="w-16 h-16 rounded-full"
               />
               <div>
-                <h3 className="font-bold text-lg">{user.login}</h3>
+                <h3 className="font-bold text-lg">{user.name || user.login}</h3>
                 <a 
                   href={user.html_url} 
                   target="_blank" 
