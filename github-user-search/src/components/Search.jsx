@@ -72,7 +72,7 @@ function Search() {
 
       {/* Conditional Rendering */}
       {loading && <p className="mt-4 text-blue-600">Loading...</p>}
-      {error && <p className="mt-4 text-red-600">Looks like we can't find the user</p>}
+      {error && <p className="mt-4 text-red-600">Looks like we cant find the user</p>}
 
       {/* Results */}
       {users.length > 0 && (
