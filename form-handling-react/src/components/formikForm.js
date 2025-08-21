@@ -36,8 +36,7 @@ const FormikForm = () => {
                         name="email"
                         value={values.email}
                         onChange={handleChange}
-                        onBlur={handleBlur} 
-                        />
+                        onBlur={handleBlur} />
                         <ErrorMessage name="email" component="div" style={{ color: 'red' }} 
                         />
                     </div>
@@ -47,8 +46,8 @@ const FormikForm = () => {
                         name="password"
                         value={values.password}
                         onChange={handleChange}
-                        onBlur={handleBlur} 
-                        />
+                        onBlur={handleBlur}
+                         />
                         <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
                     </div>
 
