@@ -33,7 +33,7 @@ const RegistrationForm = () => {
             newErrors.email = 'Email is required';
          
         }
-        if (!username){
+        if (!password){
             newErrors.password = 'Password is required';
          
         }
