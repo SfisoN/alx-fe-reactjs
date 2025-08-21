@@ -18,18 +18,37 @@ const FormikForm = () => {
 
         }}
         >
-            {() => (
+            {({values, handleChange, handleBlur }) => (
                 <Form>
                     <div>
-                        <Field type="text" name="username" />
+                        <input 
+                        type="text" 
+                        name="username"
+                        value={values.username} 
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        />
                         <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
                     </div>
                     <div>
-                        <Field type="email" name="email" />
-                        <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
+                        <input
+                        type="email" 
+                        name="email"
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur} 
+                        />
+                        <ErrorMessage name="email" component="div" style={{ color: 'red' }} 
+                        />
                     </div>
                     <div>
-                        <Field type="password" name="password" />
+                        <input 
+                        type="password" 
+                        name="password"
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur} 
+                        />
                         <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
                     </div>
 
