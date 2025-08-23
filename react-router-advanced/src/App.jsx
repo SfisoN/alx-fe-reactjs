@@ -1,35 +1,51 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import Home from './components/HomePage'
+import Profile from './components/Profile'
+import ProfileDetails from './components/ProfileDetails'
+import BlogPost from './components/BlogPost'
+import ProtectedRoute from './components/ProtectedRoute'
+import ProfileSettings from './components/ProfileSettings'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const login = () => {
+    setIsAuthenticated(true);
+  };
+  const logout = () => {
+    setIsAuthenticated(false);
+  };  
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <nav style={{display: "flex", gap: "10px"}}>
+        <Link to="/">Home</Link>
+        <Link to="/profile">Profile</Link>
+        <Link to="/blog/123">Blog Post (Dynamic)</Link>
+        
+        {isAuthenticated ? (
+          <button onClick={logout}>Logout</button>
+        ) : (
+          <button onClick={login}>Login</button>
+        )}
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blog/:postId" element={<BlogPost />} />
+        
+        <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+          <Route path="/profile" element={<Profile />}>
+            <Route path="details" element={<ProfileDetails />} />
+            <Route path="settings" element={<ProfileSettings />} />
+          </Route>
+        </Route>
+        <Route path='/blog/:postId' element={<BlogPost />} />
+        <Route path="*" element={<h1>404: Page Not Found</h1>} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App
