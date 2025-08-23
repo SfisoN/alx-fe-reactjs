@@ -33,14 +33,14 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/blog/:postId" element={<BlogPost />} />
+        <Route path="/blog/:id" element={<BlogPost />} />
         
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route path="/profile" element={<Profile />}>
             
           </Route>
         </Route>
-        <Route path='/blog/:postId' element={<BlogPost />} />
+        <Route path='/blog/:id' element={<BlogPost />} />
         <Route path="*" element={<h1>404: Page Not Found</h1>} />
       </Routes>
     </Router>
