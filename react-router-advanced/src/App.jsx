@@ -37,8 +37,7 @@ function App() {
         
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route path="/profile" element={<Profile />}>
-            <Route path="details" element={<ProfileDetails />} />
-            <Route path="settings" element={<ProfileSettings />} />
+            
           </Route>
         </Route>
         <Route path='/blog/:postId' element={<BlogPost />} />
