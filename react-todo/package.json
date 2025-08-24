@@ -36,6 +36,7 @@
     "vite": "^7.1.2"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.[tj]sx?$": "babel-jest"
     }

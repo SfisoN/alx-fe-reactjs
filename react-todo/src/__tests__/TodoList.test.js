@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import '@testing-library/jest-dom';
+import { within } from "@testing-library/react";
 import TodoList from "../components/TodoList";
 
 describe('TodoList Component', () => {
@@ -35,8 +36,8 @@ describe('TodoList Component', () => {
 
     test('deletes a todo', () => {
         render(<TodoList />);
-        const todoItem = screen.getByText(/Build a Todo App/);
-        const deleteButton = todoItem.querySelector('[data-testid="delete-button"]'); 
+        const todoItem = screen.getByText(/Build a Todo App/).closest('li');
+        const deleteButton = within(todoItem).getByTestId('delete-btn'); 
 
         fireEvent.click(deleteButton);
         expect(todoItem).not.toBeInTheDocument();
